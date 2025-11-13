@@ -2,7 +2,7 @@ import csv
 from rdflib import Graph, Literal, Namespace, URIRef
 from rdflib.namespace import DCTERMS, RDF, RDFS, SKOS, PROV, XSD, OWL
 
-#concept_list = ['Asset','BusinessAsset','GovernanceAsset','TechnologyAsset','DataAsset','BussinessAsset-DataOwner','TechnologyAsset-DataMovementAccess','GovernanceAsset-SubjectMatterExpert','BusinessAsset-DataConsumer','BusinessAsset-DataProducer']
+
 concept_list = ['OntologyConcepts']
 attribute_list = ['id', 'rdf:type', 'dct:Contributor', 'dct:Created', 'dct:modified', 'dct:source', 'rdfs:isDefinedBy', 'rdfs:subClassOf', 'sw:term_status', 'skos:broader', 'skos:definition', 'skos:inScheme', 'skos:prefLabel', 'skos:scopeNote']
 
