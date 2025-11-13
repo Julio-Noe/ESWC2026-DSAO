@@ -1,0 +1,24 @@
+ID,Requirement,Why it matters (short rationale),Guideline reference
+R1,Purpose specification: State the specific purposes for which data will be shared/processed.,"Purpose anchors lawfulness, minimisation and proportionality.","(ICO, 2021; OECD, 2025) "
+R2,Legal basis: Identify a lawful basis (and any additional conditions for special-category data).,Required to share lawfully and demonstrate accountability.,"(ICO, 2021) "
+R3,Parties and roles: Name all parties and define roles (controller/processor/joint controller/recipient) and responsibilities.,Clarifies obligations and liabilities between organisations.,"(ICO, 2021) "
+R4,"Data categories & scope: List personal/non-personal data categories, granularity, and identifiers to be shared.",Enables data minimisation and proportionality checks.,"(ICO, 2021; OECD, 2025) "
+R5,Law enforcement / special regimes (if applicable): Declare when Part 3 (law enforcement) or other regimes apply.,Ensures correct legal framework and safeguards.,"(ICO, 2021) "
+R6,"Security measures (TOMs): Describe technical/organisational measures for transfer, storage, and access.","Protects confidentiality, integrity, availability; builds trust.","(ICO, 2021; OECD, 2025) "
+R7,"Access control & authentication: Define who can access what, under what conditions, with audit trails.",Prevents unauthorised use and supports accountability.,"(ICO, 2021) "
+R8,"Retention & deletion: Specify retention periods, review cycles, and secure deletion/return procedures.","Limits risk, aligns with storage limitation principle.","(ICO, 2021) "
+R9,International transfers: Identify destinations and transfer mechanisms; describe additional safeguards.,Required for cross-border flows and interoperability.,"(ICO, 2021; OECD, 2021) "
+R10,"Data subject rights handling: Explain how access, rectification, erasure, objection, restriction, and portability will be met across parties.",Demonstrates rights enablement and fair processing.,"(ICO, 2021) "
+R11,Transparency & notices: Explain what information is provided to individuals and by whom (incl. indirect collection).,Underpins fairness and public trust.,"(ICO, 2021; OECD, 2025) "
+R12,Risk assessment triggers: Indicate when DPIA/TRA is required and how outcomes constrain sharing.,Makes risk-based governance explicit.,"(ICO, 2021) "
+R13,"Data quality & accuracy assurances: Define responsibilities for data quality, versioning, and correction propagation.",Reduces harm from inaccurate or stale data.,"(ICO, 2021; OECD, 2021) "
+R14,"Standards & formats: Specify schemas/standards, metadata, and interoperability requirements.","Facilitates responsible, efficient re-use and portability.","(OECD, 2025)"
+R15,"Permitted/Prohibited uses & onward sharing: Define allowed purposes, secondary use conditions, and onward disclosure controls.",Prevents scope creep; enforces purpose limitation.,"(ICO, 2021) "
+R16,"Breach & incident response: Establish reporting lines, timelines, cooperation duties, and remediation steps.",Ensures coordinated response and legal compliance.,"(ICO, 2021) "
+R17,"Monitoring, audit & review: Plan review frequency, audit rights, metrics, and triggers (complaints, breaches, changes).",Operationalises accountability and continuous improvement.,"(ICO, 2021) "
+R18,"Governance & decision records: Maintain DSA approvals, change logs, and sharing decision forms.",Provides evidence for regulators and auditors.,"(ICO, 2021) "
+R19,Children & vulnerable groups (where relevant): Include best-interests tests and enhanced safeguards.,Addresses heightened risks and fairness.,"(ICO, 2021) "
+R20,"Termination & exit: Define triggers, wind-down, data return/deletion, and continued obligations.",Reduces residual risk after sharing ends.,"(ICO, 2021) "
+,,,
+"ICO, 2021",https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/data-sharing/data-sharing-a-code-of-practice/data-sharing-agreements/,,
+OECD 2025,https://www.oecd.org/en/publications/enhancing-access-to-and-sharing-of-data-in-the-age-of-artificial-intelligence_23a70dca-en.html,,
