@@ -1,0 +1,38 @@
+@prefix dsao: <https://w3id.org/dsao#> .
+@prefix dpv:  <https://w3id.org/dpv#> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix :     <https://example.org/dsa/iter0/> .
+
+
+:case61 a dsao:DataSharingAgreement ;
+  dsao:hasProcessing :case61_PA1 .
+
+:case61_PA1 a dsao:ProcessingActivity ;
+  dpv:hasPurpose <https://w3id.org/dpv#research> .
+:case61_PA1 dpv:hasLegalBasis <https://w3id.org/dpv#contract> .
+:case61_PA1 dsao:usesData <https://w3id.org/dpv#contact> .
+
+:case61 dpv:hasPurpose <https://w3id.org/dpv#research> .
+:case61 dpv:hasPersonalData <https://w3id.org/dpv#contact> .
+
+:case61_Dataset1 a dsao:SharedDataset .
+:case61_Dataset1 dpv:hasStorage _:s61 .
+_:s61 dpv:hasDuration "P12M"^^xsd:duration .
+:case61_Dataset1 dsao:disposalMethod "SecureDelete" .
+
+
+:case61_Transfer1 a dsao:InternationalTransfer ;
+  dsao:destinationCountry "NON_DOMESTIC" .
+:case61_Transfer1 dsao:hasSafeguard <https://w3id.org/dpv#encryption_at_rest> .
+:case61_Transfer1 dsao:hasSafeguard <https://w3id.org/dpv#access_control> .
+
+:case61_RN_proportionality a dsao:ReviewNote ;
+  dsao:justifies :case61_PA1 ;
+  dsao:guidelineRef "ICO-2021-§3.2" ;
+  dsao:decision "pass" .
+
+:case61_RN_safeguards a dsao:ReviewNote ;
+  dsao:justifies :case61_Transfer1 ;
+  dsao:guidelineRef "OECD-2025-§4" ;
+  dsao:decision "pass" .

@@ -1,0 +1,40 @@
+@prefix dsao: <https://w3id.org/dsao#> .
+@prefix dpv:  <https://w3id.org/dpv#> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix :     <https://example.org/dsa/iter0/> .
+
+
+:case12 a dsao:DataSharingAgreement ;
+  dsao:hasProcessing :case12_PA1 .
+
+:case12_PA1 a dsao:ProcessingActivity ;
+  dpv:hasPurpose <https://w3id.org/dpv#loan_servicing> .
+:case12_PA1 dsao:usesData <https://w3id.org/dpv#contact> .
+:case12_PA1 dsao:usesData <https://w3id.org/dpv#biometric> .
+<https://w3id.org/dpv#biometric> a dpv:SpecialCategoryPersonalData .
+
+:case12 dpv:hasPurpose <https://w3id.org/dpv#loan_servicing> .
+:case12 dpv:hasPersonalData <https://w3id.org/dpv#contact> .
+
+:case12_Dataset1 a dsao:SharedDataset .
+:case12_Dataset1 dpv:hasStorage _:s12 .
+_:s12 dpv:hasDuration "P12M"^^xsd:duration .
+:case12_Dataset1 dsao:disposalMethod "SecureDelete" .
+
+
+:case12_Transfer1 a dsao:InternationalTransfer ;
+  dsao:destinationCountry "NON_DOMESTIC" .
+:case12_Transfer1 dsao:transferMechanism "contractual" .
+:case12_Transfer1 dsao:hasSafeguard <https://w3id.org/dpv#encryption_at_rest> .
+:case12_Transfer1 dsao:hasSafeguard <https://w3id.org/dpv#access_control> .
+
+:case12_RN_proportionality a dsao:ReviewNote ;
+  dsao:justifies :case12_PA1 ;
+  dsao:guidelineRef "ICO-2021-§3.2" ;
+  dsao:decision "needs-change" .
+
+:case12_RN_safeguards a dsao:ReviewNote ;
+  dsao:justifies :case12_Transfer1 ;
+  dsao:guidelineRef "OECD-2025-§4" ;
+  dsao:decision "pass" .
