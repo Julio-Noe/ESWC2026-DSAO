@@ -1,0 +1,56 @@
+﻿Property (IRI),Intent (what it links),Domain → Range,Reuse / Alignment,Constraints & notes,Tiny example
+dsao:hasParty,Attach participating parties to a DSA,dsao:DataSharingAgreement → dsao:Party,—,Parties carry roles via dpv:hasRole.,:DSA1 dsao:hasParty :OrgA .
+dpv:hasRole,Assign a role to a party,dsao:Party → dpv:Role,"DPV (dpv:DataController, …)",Use DPV role taxonomy.,:OrgA dpv:hasRole dpv:DataController .
+dpv:hasPurpose,Declare purposes for the DSA/processing,dsao:DSA/dsao:ProcessingActivity → dpv:Purpose,DPV,Label each purpose (for UX).,:DSA1 dpv:hasPurpose :PurposeLending .
+dsao:hasProcessing,Link DSA to its processing activities,dsao:DSA → dsao:ProcessingActivity,—,Each processing has purpose + legal basis.,:DSA1 dsao:hasProcessing :PA1 .
+dpv:hasLegalBasis,Authorisation for a processing activity,dsao:ProcessingActivity → dpv:LegalBasis,DPV,Conditional extras for special data.,:PA1 dpv:hasLegalBasis dpv:Contract .
+dsao:usesData,Data categories used by a processing activity,dsao:ProcessingActivity → dpv:PersonalDataCategory,DPV,Prefer most specific category.,:PA1 dsao:usesData dpv:FinancialAccountData .
+dpv:hasPersonalData,Data categories covered by a DSA,dsao:DSA → dpv:PersonalDataCategory,DPV,Mirrors R4 + FR-05.,:DSA1 dpv:hasPersonalData dpv:ContactData .
+dsao:hasPolicy,Attach a machine-readable policy to a DSA,dsao:DSA → odrl:Policy,ODRL,"Holds permissions, prohibitions, duties.",:DSA1 dsao:hasPolicy :Pol1 .
+odrl:permission,Allowed use statements,odrl:Policy → odrl:Permission,ODRL,Include odrl:purpose where possible.,:Pol1 odrl:permission :PermUse .
+odrl:prohibition,Forbidden use statements,odrl:Policy → odrl:Prohibition,ODRL,Prevent scope creep.,:Pol1 odrl:prohibition :ProhResale .
+odrl:duty,"Obligations (e.g., delete after term)",odrl:Policy → odrl:Duty,ODRL,"Use for retention, notice, etc.",:Pol1 odrl:duty :DutyDelete .
+dsao:governsAccess,Policy → access rules scope,odrl:Policy → dsao:AccessRule,—,Bridges policy to concrete access rules.,:Pol1 dsao:governsAccess :AR1 .
+dsao:actor,Who may access (subject),dsao:AccessRule → dsao:Party,—,N-ary access pattern.,:AR1 dsao:actor :OrgA .
+dsao:resource,What can be accessed (object),dsao:AccessRule → dsao:SharedDataset,—,—,:AR1 dsao:resource :Dataset1 .
+dsao:condition,Under which conditions,dsao:AccessRule → rdf:langString/xsd:string,—,Could also be ODRL odrl:constraint.,":AR1 dsao:condition ""Office hours"" ."
+dct:conformsTo,Schema/standard a dataset follows,dsao:SharedDataset → dct:Standard/IRI,DCT,"Cite schema, API, profile.",:Dataset1 dct:conformsTo :SchemaV1 .
+dpv:hasStorage / dpv:hasDuration,Retention duration via storage,dsao:SharedDataset → dpv:Storage/time:Duration,DPV/Time,Model as Storage -> Duration.,":Dataset1 dpv:hasStorage [ dpv:hasDuration ""P12M""^^xsd:duration ] ."
+dsao:disposalMethod,Disposal/return method at end,dsao:SharedDataset → literal/IRI,—,Controlled vocab recommended.,":Dataset1 dsao:disposalMethod ""SecureDelete"" ."
+dsao:InternationalTransfer → destinationCountry,Transfer destination,dsao:InternationalTransfer → dsao:Country/literal,—,Use ISO-3166 codes.,":T1 dsao:destinationCountry ""MX"" ."
+dsao:transferMechanism,Legal mechanism for transfer,dsao:InternationalTransfer → literal/IRI,—,"e.g., SCCs, BCRs, adequacy.",":T1 dsao:transferMechanism ""SCCs"" ."
+dsao:hasSafeguard,Extra safeguards for transfer/security,dsao:InternationalTransfer/dsao:Party → dpv:TechnicalOrganisationalMeasure,DPV,"Encryption, access control, etc.",:T1 dsao:hasSafeguard :EncAtRest .
+dsao:hasRightsHandling,Attach a rights-handling arrangement,dsao:DSA → dsao:RightsHandling,—,—,:DSA1 dsao:hasRightsHandling :RH1 .
+dsao:forRight,Which right is covered,dsao:RightsHandling → dpv:Right,DPV,Use DPV rights list.,:RH1 dsao:forRight dpv:RightAccess .
+dsao:responsibleParty,Who fulfils the right/process,dsao:RightsHandling/dsao:DataQualityPlan → dsao:Party,—,Reused across plans.,:RH1 dsao:responsibleParty :OrgA .
+dsao:procedureURL,Where/how the right is exercised,dsao:RightsHandling → IRI,—,Link to portal/process doc.,:RH1 dsao:procedureURL <https://example/request> .
+dsao:hasTransparencyArrangement,Notices issued under the DSA,dsao:DSA → dsao:TransparencyArrangement,—,—,:DSA1 dsao:hasTransparencyArrangement :TA1 .
+dsao:noticeType,Kind of notice (direct/indirect/etc.),dsao:TransparencyArrangement → literal/IRI,—,Controlled vocab recommended.,":TA1 dsao:noticeType ""Direct"" ."
+dsao:issuer,Party who issues the notice,dsao:TransparencyArrangement → dsao:Party,—,—,:TA1 dsao:issuer :OrgA .
+foaf:page / dct:source,Public link for the notice,dsao:TransparencyArrangement → IRI,FOAF/DCT,—,:TA1 foaf:page <…/privacy> .
+dsao:hasAssessment,Link DSA to DPIA/TRA,dsao:DSA → dsao:Assessment,—,Only if high-risk triggers.,:DSA1 dsao:hasAssessment :A1 .
+dsao:assessmentType,"DPIA, TRA, etc.",dsao:Assessment → literal/IRI,—,—,":A1 dsao:assessmentType ""DPIA"" ."
+dsao:assessmentOutcome,"Outcome (e.g., low risk)",dsao:Assessment → literal/IRI,—,—,":A1 dsao:assessmentOutcome ""Low"" ."
+dct:references,Link to full report,dsao:Assessment → IRI,DCT,—,:A1 dct:references <…/dpia.pdf> .
+dsao:hasDataQualityPlan,Attach data-quality plan,dsao:DSA → dsao:DataQualityPlan,—,—,:DSA1 dsao:hasDataQualityPlan :DQP .
+dsao:correctionProcedure,How corrections propagate,dsao:DataQualityPlan → literal/IRI,—,Link to SOP if possible.,":DQP dsao:correctionProcedure ""Ticketed sync"" ."
+dsao:hasGovernancePlan,Monitoring/audit plan,dsao:DSA → dsao:GovernancePlan,—,—,:DSA1 dsao:hasGovernancePlan :Gov .
+dsao:reviewFrequency,Review cadence,dsao:GovernancePlan → literal/IRI,—,"e.g., P12M.",":Gov dsao:reviewFrequency ""P12M"" ."
+dsao:metric,Governance KPI,dsao:GovernancePlan → literal/IRI,—,—,":Gov dsao:metric ""DSAR SLA≤30d"" ."
+dsao:auditRight,Audit rights,dsao:GovernancePlan → literal/IRI,—,—,":Gov dsao:auditRight ""On-site yearly"" ."
+dsao:hasIncidentResponsePlan,Breach/incident plan,dsao:DSA → dsao:IncidentResponsePlan,—,—,:DSA1 dsao:hasIncidentResponsePlan :IRP .
+dsao:notificationDeadline,Notification timeline,dsao:IncidentResponsePlan → xsd:duration,—,ISO 8601 duration.,":IRP dsao:notificationDeadline ""PT72H""^^xsd:duration ."
+dsao:contactPoint,Incident contact,dsao:IncidentResponsePlan → IRI/literal,—,Prefer mailto: IRI.,":IRP dsao:contactPoint ""mailto:sec@example.org"" ."
+dsao:hasExitPlan,Exit/termination plan,dsao:DSA → dsao:ExitPlan,—,—,:DSA1 dsao:hasExitPlan :Exit1 .
+dsao:exitTrigger,When DSA ends,dsao:ExitPlan → literal/IRI,—,—,":Exit1 dsao:exitTrigger ""Contract end"" ."
+dsao:dataDisposition,Return/delete disposition,dsao:ExitPlan → literal/IRI,—,—,":Exit1 dsao:dataDisposition ""SecureDelete"" ."
+dsao:postTerminationObligation,Continuing duties,dsao:ExitPlan → literal/IRI,—,—,":Exit1 dsao:postTerminationObligation ""No reuse"" ."
+dsao:appliesRegime,Special legal regime flag,dsao:DSA → dsao:Regime,—,Use if special regimes apply.,:DSA1 dsao:appliesRegime :LERegime .
+dsao:population,Covered population,dsao:DSA/dsao:ProcessingActivity → dsao:Population,—,Use for children/vulnerable groups.,:DSA1 dsao:population :Children .
+dsao:enhancedSafeguard,Extra protections for populations,dsao:DSA → dpv:TechnicalOrganisationalMeasure,DPV,Triggered by population.,:DSA1 dsao:enhancedSafeguard :AgeAppropriateDesign .
+dct:hasVersion,Version identifier,dsao:DSA → literal,DCT,Semantic versioning recommended.,":DSA1 dct:hasVersion ""1.2.0"" ."
+dsao:approvalRecord,Governance approval record,dsao:DSA → IRI/literal,—,Link to system record.,:DSA1 dsao:approvalRecord <…/approval/123> .
+dsao:changeLog,Change history pointer,dsao:DSA → IRI/literal,—,—,:DSA1 dsao:changeLog <…/changelog> .
+dsao:onwardSharingRule,Conditions on re-disclosure,odrl:Policy/dsao:PolicyFragment → literal/IRI,—,State redisclosure limits.,":Pol1 dsao:onwardSharingRule ""No third parties"" ."
+dsao:justifies,Review note → justified node,dsao:ReviewNote → rdfs:Resource,—,For HITL traceability.,:RN1 dsao:justifies :PA1 .
+dsao:guidelineRef,Review note → guideline citation,dsao:ReviewNote → CURIE/IRI literal,—,"E.g., ICO-2021-§3.2.",":RN1 dsao:guidelineRef ""ICO-2021-3.2"" ."
