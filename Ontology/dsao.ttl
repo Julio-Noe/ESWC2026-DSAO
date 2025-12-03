@@ -1,0 +1,198 @@
+########################################################################
+# Data Sharing Agreement Ontology (DSA-O) — Turtle serialization
+# Version: 0.9.0 (ESWC 2026 submission artifact)
+# Design notes:
+#  - General-purpose, DPV-aligned vocabulary for representing DSAs.
+#  - Focus on core structural elements used in our evaluation:
+#    Agreement → ProcessingActivity → Dataset/Storage/Disposal → Transfer/Safeguards
+#  - Review layer (ReviewNote) to capture human-in-the-loop outcomes.
+#  - Alignment is expressed with rdfs:subClassOf / rdfs:seeAlso to DPV terms.
+########################################################################
+
+@prefix dsao: <https://example.org/dsao#> .
+@prefix dpv:  <https://w3id.org/dpv#> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+########################################################################
+# Ontology header (metadata)
+########################################################################
+
+<https://example.org/dsao>
+  dct:title            "DSA-O: Data Sharing Agreement Ontology" ;
+  dct:description      "A DPV-aligned vocabulary for modeling DSAs, their processing activities, data, retention/disposal, transfers, and human review notes." ;
+  dct:creator          "DSA-O authors" ;
+  dct:license          <https://creativecommons.org/licenses/by/4.0/> ;
+  dct:created          "2025-11-26"^^xsd:date ;
+  dct:hasVersion       "0.9.0" ;
+  rdfs:seeAlso         dpv:Concept ;
+  rdfs:isDefinedBy     <https://example.org/dsao> .
+
+########################################################################
+# Core classes (rdfs:Class) — minimal, DPV-aligned
+########################################################################
+
+# A legal/contractual arrangement to share data between Parties.
+dsao:DataSharingAgreement a rdfs:Class ;
+  rdfs:label        "Data Sharing Agreement" ;
+  skos:definition   "A formal arrangement specifying conditions, purposes, and controls for sharing personal/non-personal data between parties." ;
+  rdfs:isDefinedBy  <https://example.org/dsao> .
+
+# Organization or person participating in the DSA with a declared role.
+dsao:Party a rdfs:Class ;
+  rdfs:label        "Party" ;
+  skos:definition   "A legal or natural person that is a participant to the DSA (e.g., provider, recipient)." ;
+  rdfs:isDefinedBy  <https://example.org/dsao> .
+
+# Role held by a Party in the DSA (e.g., provider, recipient, controller, processor).
+dsao:Role a rdfs:Class ;
+  rdfs:label        "Role" ;
+  skos:definition   "A function or responsibility assumed by a Party in the context of a DSA." ;
+  rdfs:isDefinedBy  <https://example.org/dsao> .
+
+# ProcessingActivity aligned with DPV Processing.
+dsao:ProcessingActivity a rdfs:Class ;
+  rdfs:label        "Processing Activity" ;
+  skos:definition   "A unit of processing with a declared purpose and legal basis when personal data are used." ;
+  rdfs:subClassOf   dpv:Processing ;
+  rdfs:isDefinedBy  <https://example.org/dsao> .
+
+# A dataset shared under the DSA; linked to storage and disposal.
+dsao:SharedDataset a rdfs:Class ;
+  rdfs:label        "Shared Dataset" ;
+  skos:definition   "A dataset made available under the DSA, with retention/storage and disposal controls." ;
+  rdfs:subClassOf   dpv:Dataset ;
+  rdfs:isDefinedBy  <https://example.org/dsao> .
+
+# Cross-border or external transfer under the DSA.
+dsao:InternationalTransfer a rdfs:Class ;
+  rdfs:label        "International Transfer" ;
+  skos:definition   "A transfer of data across jurisdictions or to external destinations, with mechanisms and safeguards." ;
+  rdfs:seeAlso      dpv:DataTransfer ;
+  rdfs:isDefinedBy  <https://example.org/dsao> .
+
+# Human-in-the-loop review note / decision attached to a specific node.
+dsao:ReviewNote a rdfs:Class ;
+  rdfs:label        "Review Note" ;
+  skos:definition   "A human reviewer’s decision, rationale, or evidence regarding adequacy (e.g., proportionality, safeguards)." ;
+  rdfs:isDefinedBy  <https://example.org/dsao> .
+
+########################################################################
+# Object and data properties (rdf:Property) — domains/ranges + comments
+########################################################################
+
+# Agreement structure / participation
+dsao:hasParty a rdf:Property ;
+  rdfs:label        "has party" ;
+  rdfs:domain       dsao:DataSharingAgreement ;
+  rdfs:range        dsao:Party ;
+  skos:definition   "Associates a DataSharingAgreement with a participating Party." ;
+  rdfs:isDefinedBy  <https://example.org/dsao> .
+
+dsao:hasRole a rdf:Property ;
+  rdfs:label        "has role" ;
+  rdfs:domain       dsao:Party ;
+  rdfs:range        dsao:Role ;
+  skos:definition   "Declares the role held by a Party within the DSA." ;
+  rdfs:isDefinedBy  <https://example.org/dsao> .
+
+# Agreement → activities / datasets
+dsao:hasProcessing a rdf:Property ;
+  rdfs:label        "has processing activity" ;
+  rdfs:domain       dsao:DataSharingAgreement ;
+  rdfs:range        dsao:ProcessingActivity ;
+  skos:definition   "Links a DSA to one of its ProcessingActivities." ;
+  rdfs:isDefinedBy  <https://example.org/dsao> .
+
+dsao:includesDataset a rdf:Property ;
+  rdfs:label        "includes dataset" ;
+  rdfs:domain       dsao:DataSharingAgreement ;
+  rdfs:range        dsao:SharedDataset ;
+  skos:definition   "Links a DSA to a SharedDataset made available under it." ;
+  rdfs:isDefinedBy  <https://example.org/dsao> .
+
+# Processing semantics (DPV alignment via rdfs:seeAlso to DPV predicates)
+dsao:usesData a rdf:Property ;
+  rdfs:label        "uses data category" ;
+  rdfs:domain       dsao:ProcessingActivity ;
+  rdfs:range        dpv:PersonalDataCategory ;
+  rdfs:seeAlso      dpv:hasPersonalData ;
+  skos:definition   "Indicates personal data categories used by the ProcessingActivity." ;
+  rdfs:isDefinedBy  <https://example.org/dsao> .
+
+# NOTE: Purposes and legal bases are expressed using DPV properties on the activity:
+#       dpv:hasPurpose (→ dpv:Purpose), dpv:hasLegalBasis (→ dpv:LegalBasis).
+
+# Dataset retention/disposal
+dsao:disposalMethod a rdf:Property ;
+  rdfs:label        "disposal method" ;
+  rdfs:domain       dsao:SharedDataset ;
+  rdfs:range        xsd:string ;
+  skos:definition   "Declares the disposal/erasure method for the dataset (e.g., SecureDelete)." ;
+  rdfs:isDefinedBy  <https://example.org/dsao> .
+
+# NOTE: Retention uses DPV’s storage pattern:
+#       dpv:hasStorage (→ dpv:Storage), and dpv:hasDuration (→ xsd:duration) on the storage node.
+
+# Transfer semantics
+dsao:transferMechanism a rdf:Property ;
+  rdfs:label        "transfer mechanism" ;
+  rdfs:domain       dsao:InternationalTransfer ;
+  rdfs:range        xsd:string ;
+  skos:definition   "Mechanism or legal instrument used for the data transfer (e.g., contractual)." ;
+  rdfs:isDefinedBy  <https://example.org/dsao> .
+
+dsao:destinationCountry a rdf:Property ;
+  rdfs:label        "destination country" ;
+  rdfs:domain       dsao:InternationalTransfer ;
+  rdfs:range        xsd:string ;
+  skos:definition   "Destination country or jurisdiction of the transfer." ;
+  rdfs:isDefinedBy  <https://example.org/dsao> .
+
+dsao:hasSafeguard a rdf:Property ;
+  rdfs:label        "has safeguard" ;
+  rdfs:domain       dsao:InternationalTransfer ;
+  rdfs:range        dpv:TechnicalOrganisationalMeasure ;
+  rdfs:seeAlso      dpv:hasTechnicalOrganisationalMeasure ;
+  skos:definition   "Associated technical or organizational measures (TOMs) mitigating transfer risks." ;
+  rdfs:isDefinedBy  <https://example.org/dsao> .
+
+# Review layer (HITL)
+dsao:justifies a rdf:Property ;
+  rdfs:label        "justifies" ;
+  rdfs:domain       dsao:ReviewNote ;
+  rdfs:range        rdfs:Resource ;
+  skos:definition   "Points from a ReviewNote to the resource (activity, dataset, transfer) being reviewed." ;
+  rdfs:isDefinedBy  <https://example.org/dsao> .
+
+dsao:decision a rdf:Property ;
+  rdfs:label        "decision" ;
+  rdfs:domain       dsao:ReviewNote ;
+  rdfs:range        xsd:string ;
+  skos:definition   "Outcome label (e.g., 'pass', 'needs-change', 'reject'); values may be profiled in shapes." ;
+  rdfs:isDefinedBy  <https://example.org/dsao> .
+
+dsao:guidelineRef a rdf:Property ;
+  rdfs:label        "guideline reference" ;
+  rdfs:domain       dsao:ReviewNote ;
+  rdfs:range        xsd:string ;
+  skos:definition   "A citation or pointer to an external guideline section informing the decision." ;
+  rdfs:isDefinedBy  <https://example.org/dsao> .
+
+dsao:evidence a rdf:Property ;
+  rdfs:label        "evidence" ;
+  rdfs:domain       dsao:ReviewNote ;
+  rdfs:range        rdfs:Resource ;
+  skos:definition   "Optional link to evidence (document, URL, artefact) supporting the decision." ;
+  rdfs:isDefinedBy  <https://example.org/dsao> .
+
+########################################################################
+# Alignment notes (informative)
+#  - Purposes:          dpv:hasPurpose → dpv:Purpose
+#  - Legal basis:       dpv:hasLegalBasis → dpv:LegalBasis
+#  - Personal data:     dsao:usesData → dpv:PersonalDataCategory (see also dpv:hasPersonalData)
+#  - Storage/duration:  dpv:hasStorage → dpv:Storage, dpv:hasDuration → xsd:duration
+#  - Safeguards (TOMs): dsao:hasSafeguard → dpv:TechnicalOrganisationalMeasure
+########################################################################
