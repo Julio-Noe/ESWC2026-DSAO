@@ -16,8 +16,7 @@ This repository contains:
     + `iter_0/manifest_gold_hitl.csv` (gold defects + HITL outcomes)
   - **Iter-1** (fixed + hints): `dsao_synth_from_overview/iter_1_fix/instances/*.ttl`  
     + `iter_1_fix/manifest_iter1_fix.csv`
-- **Evaluation scripts** (Tables 2–4): under `src/` (Python).
-- **Explainable-by-design pipeline**: every result is traceable to (requirement → pattern → SHACL shape → CQ → reviewer/hint).
+- **Evaluation scripts**: under `src/` (Python).
 
 > ⚠️ The corpus is **synthetic** on purpose to allow controlled, repeatable experiments without exposing real DSAs.
 
@@ -63,36 +62,7 @@ This repository contains:
 
 ---
 
-## 4) Quick Start (All Tables in ~5 Minutes)
-
-```bash
-# 1) Validate Iter-0 with structural SHACL (produce reports)
-mkdir -p reports/iter0 reports/iter1
-for f in dsao_synth_from_overview/iter_0/instances/*.ttl; do
-  b=$(basename "$f" .ttl)
-  pyshacl -s shapes/dsao-shapes-structural.ttl -m -i rdfs -f turtle     -o reports/iter0/${b}_report.ttl "$f"
-done
-
-# 2) Validate Iter-1 (sanity: structural defects should be cleared)
-for f in dsao_synth_from_overview/iter_1_fix/instances/*.ttl; do
-  b=$(basename "$f" .ttl)
-  pyshacl -s shapes/dsao-shapes-structural.ttl -m -i rdfs -f turtle     -o reports/iter1/${b}_report.ttl "$f"
-done
-
-# 3) Reproduce Table 2 (D1–D3 + micro-average)
-python src/eval_table2.py   --iter0-manifest dsao_synth_from_overview/iter_0/manifest_gold_hitl.csv   --iter0-reports reports/iter0   --shape-file shapes/dsao-shapes-structural.ttl   --shape-d1 SH-PA-LB-01 --shape-d2 SH-DS-DISP-01 --shape-d3 SH-XFER-MECH-01
-
-# 4) Reproduce Table 3 (CQ coverage, Iter-0 vs Iter-1)
-python src/eval_cq_coverage.py   --corpus dsao_synth_from_overview/iter_0/instances --label Iter-0   --out-csv results/cq_coverage_iter0.csv
-python src/eval_cq_coverage.py   --corpus dsao_synth_from_overview/iter_1_fix/instances --label Iter-1   --out-csv results/cq_coverage_iter1.csv
-
-# 5) Reproduce Table 4 (H-Gain from hints on prior manual flags)
-python src/eval_hgain.py   --iter0-manifest dsao_synth_from_overview/iter_0/manifest_gold_hitl.csv   --iter1-dir dsao_synth_from_overview/iter_1_fix/instances
-```
-
----
-
-## 5) What Each Table Measures
+## 4) What Each Table Measures
 
 - **Table 2 – Structural Defects (D1–D3)**  
   SHACL **must-level** violations against gold-labeled defects in Iter-0:  
@@ -115,61 +85,7 @@ python src/eval_hgain.py   --iter0-manifest dsao_synth_from_overview/iter_0/mani
 
 ---
 
-## 6) Explainable-by-Design (Traceability)
-
-We treat explainability as a design constraint:
-
-- **Requirement → Pattern → Shape → CQ → Reviewer/Hint**  
-- Every run leaves **artifacts**: SHACL reports, CQ result logs, and ReviewNote annotations.  
-- A reviewer can trace a number in a table to the **concrete constraint** that fired, the **query** that (failed to) bind variables, and the **review/hint** that drove shape evolution.
-
----
-
-## 7) Troubleshooting
-
-- **All CQ coverages = 0.00**  
-  - Check you pointed to the right folder: use `iter_1_fix/instances/` (not a malformed archive).  
-  - Parse one file manually:
-    ```python
-    from rdflib import Graph
-    g = Graph(); g.parse("dsao_synth_from_overview/iter_0/instances/dsa_070.ttl", format="turtle")
-    print(len(g))
-    ```
-  - Ensure the SPARQL prefixes match the data:
-    `dsao: <https://w3id.org/dsao#>` and `dpv: <https://w3id.org/dpv#>`.
-
-- **SHACL reports empty**  
-  - Use `-i rdfs` in `pyshacl` to activate RDFS typing if needed.
-
-- **H-Gain does not match**  
-  - Verify Iter-1 files contain `dsao:hintFired "true"` on the expected `dsao:ReviewNote` nodes.  
-  - Confirm `manifest_gold_hitl.csv` is intact (20 proportionality, 20 safeguards manual flags).
-
----
-
-## 8) Citing
-
-If you use this artifact, please cite the paper (ESWC 2026) and the DSAO repository.  
-Key background references for ontology/validation metrics:
-
-- Brank, J., Grobelnik, M., & Mladenić, D. (2005). *A survey of ontology evaluation techniques.*  
-- Gómez-Pérez, A. (2004). *Ontological Engineering.*  
-- W3C (2017). *SHACL — Shapes Constraint Language (Recommendation).*  
-- Powers, D. M. W. (2011). *Evaluation: From precision, recall and F-measure…*  
-- Zaveri, A., et al. (2016). *Quality assessment for Linked Data.* Semantic Web, 7(1), 63–93.
-
----
-
-## 9) License
+## 5) License
 
 - **Ontology & shapes**: CC-BY 4.0  
 - **Synthetic corpora & scripts**: MIT
-
----
-
-## 10) Maintainers & Contributions
-
-PRs welcome! Please:
-1. Keep new shapes in **separate profiles** (avoid contaminating Table 2 runs).
-2. Add tests and a minimal example if you introduce new CQs.
-3. Preserve **traceability** (IDs, logs) so results remain explainable and reproducible.
