@@ -1,0 +1,31 @@
+@prefix dpv: <https://w3id.org/dpv#> .
+@prefix dsao: <https://example.org/dsao#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+[] a sh:ValidationReport ;
+    sh:conforms false ;
+    sh:result [ a sh:ValidationResult ;
+            sh:focusNode <https://example.org/dsa/iter0/case33_Dataset1> ;
+            sh:resultMessage "SH-DS-DISP-01 - SharedDataset must have dsao:disposalMethod (xsd:string)." ;
+            sh:resultPath dsao:disposalMethod ;
+            sh:resultSeverity sh:Violation ;
+            sh:sourceConstraintComponent sh:MinCountConstraintComponent ;
+            sh:sourceShape [ sh:datatype xsd:string ;
+                    sh:message "SH-DS-DISP-01 - SharedDataset must have dsao:disposalMethod (xsd:string)." ;
+                    sh:minCount 1 ;
+                    sh:path dsao:disposalMethod ;
+                    sh:severity sh:Violation ] ],
+        [ a sh:ValidationResult ;
+            sh:focusNode <https://example.org/dsa/iter0/case33_PA1> ;
+            sh:resultMessage "SH-PA-LB-01 - ProcessingActivity must have at least one dpv:hasLegalBasis (→ dpv:LegalBasis)." ;
+            sh:resultPath dpv:hasLegalBasis ;
+            sh:resultSeverity sh:Violation ;
+            sh:sourceConstraintComponent sh:ClassConstraintComponent ;
+            sh:sourceShape [ sh:class dpv:LegalBasis ;
+                    sh:message "SH-PA-LB-01 - ProcessingActivity must have at least one dpv:hasLegalBasis (→ dpv:LegalBasis)." ;
+                    sh:minCount 1 ;
+                    sh:path dpv:hasLegalBasis ;
+                    sh:severity sh:Violation ] ;
+            sh:value dpv:contract ] .
+

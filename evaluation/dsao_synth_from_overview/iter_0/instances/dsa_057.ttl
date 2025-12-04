@@ -1,0 +1,38 @@
+@prefix dsao: <https://example.org/dsao#> .
+@prefix dpv:  <https://w3id.org/dpv#> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix :     <https://example.org/dsa/iter0/> .
+
+
+:case57 a dsao:DataSharingAgreement ;
+  dsao:hasProcessing :case57_PA1 .
+
+:case57_PA1 a dsao:ProcessingActivity ;
+  dpv:hasPurpose <https://w3id.org/dpv#research> .
+:case57_PA1 dpv:hasLegalBasis <https://w3id.org/dpv#contract> .
+:case57_PA1 dsao:usesData <https://w3id.org/dpv#contact> .
+
+:case57 dpv:hasPurpose <https://w3id.org/dpv#research> .
+:case57 dpv:hasPersonalData <https://w3id.org/dpv#contact> .
+
+:case57_Dataset1 a dsao:SharedDataset .
+:case57_Dataset1 dpv:hasStorage _:s57 .
+_:s57 dpv:hasDuration "P12M"^^xsd:duration .
+
+
+:case57_Transfer1 a dsao:InternationalTransfer ;
+  dsao:destinationCountry "NON_DOMESTIC" .
+:case57_Transfer1 dsao:transferMechanism "contractual" .
+:case57_Transfer1 dsao:hasSafeguard <https://w3id.org/dpv#encryption_at_rest> .
+:case57_Transfer1 dsao:hasSafeguard <https://w3id.org/dpv#access_control> .
+
+:case57_RN_proportionality a dsao:ReviewNote ;
+  dsao:justifies :case57_PA1 ;
+  dsao:guidelineRef "ICO-2021-§3.2" ;
+  dsao:decision "pass" .
+
+:case57_RN_safeguards a dsao:ReviewNote ;
+  dsao:justifies :case57_Transfer1 ;
+  dsao:guidelineRef "OECD-2025-§4" ;
+  dsao:decision "pass" .

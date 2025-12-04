@@ -1,0 +1,8 @@
+PREFIX dsao: <https://example.org/dsao#>
+PREFIX dpv:  <https://w3id.org/dpv#>
+
+SELECT ?dataset ?duration ?disposal WHERE {
+  ?dataset a dsao:SharedDataset ;
+           dpv:hasStorage/dpv:hasDuration ?duration ;
+           dsao:disposalMethod ?disposal .
+}

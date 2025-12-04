@@ -1,0 +1,8 @@
+PREFIX dsao: <https://example.org/dsao#>
+PREFIX dpv:  <https://w3id.org/dpv#>
+
+SELECT ?pa ?purpose ?lb WHERE {
+  ?pa a dsao:ProcessingActivity ;
+      dpv:hasPurpose ?purpose ;
+      dpv:hasLegalBasis ?lb .
+}

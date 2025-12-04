@@ -1,0 +1,19 @@
+@prefix dpv: <https://w3id.org/dpv#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+[] a sh:ValidationReport ;
+    sh:conforms false ;
+    sh:result [ a sh:ValidationResult ;
+            sh:focusNode <https://example.org/dsa/iter0/case94_PA1> ;
+            sh:resultMessage "SH-PA-LB-01 - ProcessingActivity must have at least one dpv:hasLegalBasis (→ dpv:LegalBasis)." ;
+            sh:resultPath dpv:hasLegalBasis ;
+            sh:resultSeverity sh:Violation ;
+            sh:sourceConstraintComponent sh:ClassConstraintComponent ;
+            sh:sourceShape [ sh:class dpv:LegalBasis ;
+                    sh:message "SH-PA-LB-01 - ProcessingActivity must have at least one dpv:hasLegalBasis (→ dpv:LegalBasis)." ;
+                    sh:minCount 1 ;
+                    sh:path dpv:hasLegalBasis ;
+                    sh:severity sh:Violation ] ;
+            sh:value dpv:contract ] .
+

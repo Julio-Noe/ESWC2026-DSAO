@@ -1,0 +1,8 @@
+PREFIX dsao: <https://example.org/dsao#>
+
+SELECT ?transfer ?dest ?mechanism ?safeguard WHERE {
+  ?transfer a dsao:InternationalTransfer ;
+            dsao:destinationCountry ?dest ;
+            dsao:transferMechanism ?mechanism ;
+            dsao:hasSafeguard ?safeguard .
+}

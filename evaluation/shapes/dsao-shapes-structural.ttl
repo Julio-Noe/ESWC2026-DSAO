@@ -1,0 +1,94 @@
+@prefix sh:    <http://www.w3.org/ns/shacl#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix dpv:   <https://w3id.org/dpv#> .
+@prefix dsao:  <https://example.org/dsao#> .
+@prefix :      <https://example.org/dsao/shapes/structural#> .
+
+################################################################################
+# DSAO Structural Shapes (must-level / violations)
+# Used to compute D1–D3 results in Table 2.
+# - D1: ProcessingActivity MUST have a dpv:hasLegalBasis → dpv:LegalBasis
+# - D2: SharedDataset MUST have dsao:disposalMethod (xsd:string)
+# - D3: InternationalTransfer MUST have dsao:transferMechanism (xsd:string)
+################################################################################
+
+:ShapesGraph
+  a              sh:NodeShape ;
+  rdfs:label     "DSAO Structural Shapes" ;
+  rdfs:comment   "Must-level constraints for structural conformance; used in Table 2." ;
+  sh:closed      false .
+
+################################################################################
+# D1 — ProcessingActivity must declare a legal basis
+################################################################################
+
+:SH-PA-LB-01
+  a                 sh:NodeShape ;
+  rdfs:label        "D1: ProcessingActivity has legal basis" ;
+  sh:name           "SH-PA-LB-01" ;
+  sh:description    "Every dsao:ProcessingActivity that uses PD must declare dpv:hasLegalBasis to a dpv:LegalBasis." ;
+  sh:targetClass    dsao:ProcessingActivity ;
+  sh:property [
+      sh:path         dpv:hasLegalBasis ;
+      sh:class        dpv:LegalBasis ;
+      sh:minCount     1 ;
+      sh:message      "SH-PA-LB-01 - ProcessingActivity must have at least one dpv:hasLegalBasis (→ dpv:LegalBasis)." ;
+      sh:severity     sh:Violation
+  ] .
+
+################################################################################
+# D2 — SharedDataset must declare a disposal method
+################################################################################
+
+:SH-DS-DISP-01
+  a                 sh:NodeShape ;
+  rdfs:label        "D2: SharedDataset has disposal method" ;
+  sh:name           "SH-DS-DISP-01" ;
+  sh:description    "Every dsao:SharedDataset must declare dsao:disposalMethod as a literal (e.g., 'SecureDelete')." ;
+  sh:targetClass    dsao:SharedDataset ;
+  sh:property [
+      sh:path         dsao:disposalMethod ;
+      sh:datatype     xsd:string ;
+      sh:minCount     1 ;
+      sh:message      "SH-DS-DISP-01 - SharedDataset must have dsao:disposalMethod (xsd:string)." ;
+      sh:severity     sh:Violation
+  ] .
+
+################################################################################
+# D3 — InternationalTransfer must declare a transfer mechanism
+################################################################################
+
+:SH-XFER-MECH-01
+  a                 sh:NodeShape ;
+  rdfs:label        "D3: InternationalTransfer has transfer mechanism" ;
+  sh:name           "SH-XFER-MECH-01" ;
+  sh:description    "Every dsao:InternationalTransfer must declare dsao:transferMechanism as a literal (e.g., 'contractual')." ;
+  sh:targetClass    dsao:InternationalTransfer ;
+  sh:property [
+      sh:path         dsao:transferMechanism ;
+      sh:datatype     xsd:string ;
+      sh:minCount     1 ;
+      sh:message      "SH-XFER-MECH-01 - InternationalTransfer must have dsao:transferMechanism (xsd:string)." ;
+      sh:severity     sh:Violation
+  ] .
+
+################################################################################
+# (Optional) Additional structural checks used elsewhere (not counted in Table 2)
+# Uncomment if you also want to enforce at least one safeguard for transfers.
+#
+# :SH-XFER-TOM-01
+#   a                 sh:NodeShape ;
+#   rdfs:label        "Transfer has safeguard (TOM)" ;
+#   sh:name           "SH-XFER-TOM-01" ;
+#   sh:description    "Every InternationalTransfer should declare at least one dsao:hasSafeguard (→ dpv:TechnicalOrganisationalMeasure)." ;
+#   sh:targetClass    dsao:InternationalTransfer ;
+#   sh:property [
+#       sh:path         dsao:hasSafeguard ;
+#       sh:class        dpv:TechnicalOrganisationalMeasure ;
+#       sh:minCount     1 ;
+#       sh:message      "SH-XFER-TOM-01 - InternationalTransfer should have ≥1 dsao:hasSafeguard (→ dpv:TechnicalOrganisationalMeasure)." ;
+#       sh:severity     sh:Violation
+#   ] .
+################################################################################

@@ -1,0 +1,7 @@
+PREFIX dsao: <https://example.org/dsao#>
+PREFIX dpv:  <https://w3id.org/dpv#>
+
+SELECT ?pa ?pdCat WHERE {
+  ?pa a dsao:ProcessingActivity ;
+      dsao:usesData ?pdCat .
+}
