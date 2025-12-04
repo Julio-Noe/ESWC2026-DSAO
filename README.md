@@ -16,7 +16,7 @@ This repository contains:
     + `iter_0/manifest_gold_hitl.csv` (gold defects + HITL outcomes)
   - **Iter-1** (fixed + hints): `dsao_synth_from_overview/iter_1_fix/instances/*.ttl`  
     + `iter_1_fix/manifest_iter1_fix.csv`
-- **Evaluation scripts**: under `src/` (Python).
+- **Evaluation scripts** (Tables 2–4): under `src/` (Python).
 
 > ⚠️ The corpus is **synthetic** on purpose to allow controlled, repeatable experiments without exposing real DSAs.
 
