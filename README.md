@@ -44,7 +44,7 @@ This repository contains:
 ```
 ---
 
-## 5) License
+## 3) License
 
 - **Ontology & shapes**: CC-BY 4.0  
 - **Synthetic corpora & scripts**: MIT
