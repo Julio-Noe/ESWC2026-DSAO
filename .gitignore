@@ -3,5 +3,7 @@
 **/.DS_Store
 evaluation/iter0_dsao_synthetic_100/*
 evaluation/iter1_dsao_synthetic_100/*
-**/.zip
+evaluation/iter_0_Manifest_gold_defects_HITL_outcomes_Overview_.csv
+evaluation/iter_1_Manifest_gold_defects_HITL_outcomes_Overview_.csv
+*.zip
 evaluation/venv/*
