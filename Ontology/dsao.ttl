@@ -17,7 +17,7 @@
   rdfs:isDefinedBy <https://example.org/dsao> .
 
 ################################################################################
-# Classes (exact list requested; align to DPV where useful)
+# Classes (align to DPV where useful)
 ################################################################################
 
 dsao:DataSharingAgreement a rdfs:Class ;
@@ -147,7 +147,7 @@ dsao:DataRetentionDisposalProcess a rdfs:Class ;
   skos:definition "A process describing retention duration, storage location, and disposal at end-of-life." .
 
 ################################################################################
-# Properties (exact list requested; domains/ranges for profiling/validation)
+# Properties (domains/ranges for profiling/validation)
 ################################################################################
 
 # Agreement structure and roles
